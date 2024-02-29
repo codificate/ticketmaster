@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TicketMaster</string>
+
+    <string name="event_search">Search</string>
+    <string name="event_venue_city">%1$s, %2$s</string>
+    <string name="event_venue_date">%1$s %2$s</string>
+</resources>
