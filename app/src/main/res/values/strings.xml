@@ -2,6 +2,8 @@
     <string name="app_name">TicketMaster</string>
 
     <string name="event_search">Search</string>
+    <string name="event_search_not_found">Events not found</string>
     <string name="event_venue_city">%1$s, %2$s</string>
     <string name="event_venue_date">%1$s %2$s</string>
+    <string name="event_image">Event image</string>
 </resources>

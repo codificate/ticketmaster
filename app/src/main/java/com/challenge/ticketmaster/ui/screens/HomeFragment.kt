@@ -12,7 +12,6 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -47,7 +46,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setupRecycler()
         binding.searchField.apply {
             addTextChangedListener(object : TextWatcher {
-                var delay : Long = 1000 // 1
+                var delay: Long = 1000 // 1
                 var timer = Timer()
 
                 override fun afterTextChanged(searchEventName: Editable?) {
@@ -59,7 +58,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }, delay)
                 }
 
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int)  = Unit
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     timer.cancel()
@@ -69,7 +68,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             setOnEditorActionListener { textView, actionId, keyEvent ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE ||
                     keyEvent == null ||
-                    keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
+                    keyEvent.keyCode == KeyEvent.KEYCODE_ENTER
+                ) {
                     eventsViewModel.searchEvent(textView.text.toString())
                 }
                 false
@@ -78,7 +78,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun hideKeyboard() {
-        val inputMethodManager = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(this.view?.windowToken, 0)
     }
 
@@ -117,7 +118,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     is UIState.Error -> {
                         hideError()
                         hideLoading()
-                        displayError(uiState.message)
+                        uiState.raw?.let { displayError(requireContext().resources.getString(it)) }
+                            ?: uiState.message?.let { displayError(it) }
                     }
 
                     is UIState.Info -> {
