@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TicketMaster"
+rootProject.name = "ticketmaster"
 include(":app")
 include(":core")

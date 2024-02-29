@@ -20,7 +20,7 @@ class FetchEventsDataUseCase(
             .map { response ->
                 when (response) {
                     is ApiState.Error -> emptyList()
-                    is ApiState.Success -> response.data.embedded.events?.map { eventResponse ->
+                    is ApiState.Success -> response.data.embedded?.events?.map { eventResponse ->
                         mapper.toEvent(eventResponse)
                     }?: emptyList()
                 }
