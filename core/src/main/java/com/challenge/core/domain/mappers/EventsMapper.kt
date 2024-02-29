@@ -35,17 +35,7 @@ class EventsMapper {
                     timezone = dates.timezone.orEmpty()
                 )
             } ?: Dates(),
-            images = eventResponse.images?.let { images ->
-                images.map { image ->
-                    Images(
-                        fallback = image.fallback,
-                        height = image.height,
-                        ratio = image.ratio.orEmpty(),
-                        url = image.url.orEmpty(),
-                        width = image.width
-                    )
-                }
-            } ?: emptyList(),
+            images = findBestRatio(eventResponse),
             locale = eventResponse.locale.orEmpty(),
             type = eventResponse.type.orEmpty(),
             url = eventResponse.url.orEmpty(),
@@ -59,5 +49,23 @@ class EventsMapper {
                 )
             } ?: emptyList()
         )
+    }
+
+    private fun findBestRatio(eventResponse: EventResponse): List<Images> {
+        return eventResponse.images?.find { it.width >= BEST_WIDTH }?.let { image ->
+            listOf(
+                Images(
+                    fallback = image.fallback,
+                    height = image.height,
+                    ratio = image.ratio.orEmpty(),
+                    url = image.url.orEmpty(),
+                    width = image.width
+                )
+            )
+        } ?: emptyList()
+    }
+
+    private companion object {
+        const val BEST_WIDTH = 640
     }
 }
