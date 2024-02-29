@@ -1,15 +1,16 @@
 package com.challenge.ticketmaster.ui.screens
 
 import android.os.Build
-import androidx.annotation.RequiresApi
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.size.Precision
+import coil.transform.RoundedCornersTransformation
 import com.challenge.core.domain.models.Event
 import com.challenge.ticketmaster.R
 import com.challenge.ticketmaster.databinding.EventItemBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 class EventItemViewHolder(private val binding: EventItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -43,8 +44,17 @@ class EventItemViewHolder(private val binding: EventItemBinding) :
     }
 
     private fun displayImage(image: String) =
-        binding.itemPicture.load(image) {
-            crossfade(true)
-            placeholder(R.drawable.ic_image_placeholder)
+        binding.itemPicture.apply {
+            load(image) {
+                crossfade(true)
+                placeholder(R.drawable.ic_image_placeholder)
+                precision(Precision.EXACT)
+                transformations(RoundedCornersTransformation(topLeft = ROUNDED_CORNERS, bottomLeft = ROUNDED_CORNERS))
+            }
+            scaleType = ImageView.ScaleType.FIT_XY
         }
+
+    private companion object {
+        const val ROUNDED_CORNERS = 16f
+    }
 }
